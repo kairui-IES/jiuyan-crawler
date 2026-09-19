@@ -68,7 +68,7 @@
         // 从 reports 目录加载报告列表
         const list = document.getElementById('report-list');
         const repo = window.location.pathname.split('/')[1];
-        fetch(`https://api.github.com/repos/${repo}/contents/reports`)
+        fetch(`https://api.github.com/repos/kairui-IES/${repo}/contents/reports?ref=gh-pages`)
             .then(r => r.json())
             .then(files => {
                 if (!Array.isArray(files)) {
