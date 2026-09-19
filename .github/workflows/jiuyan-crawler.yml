@@ -38,3 +38,14 @@ jobs:
           publish_dir: ./data
           destination_dir: ./reports
           keep_files: true
+      - name: 准备首页
+        run: |
+          mkdir -p public
+          cp index.html public/index.html
+
+      - name: 发布首页
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          keep_files: true
