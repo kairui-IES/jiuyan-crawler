@@ -2,8 +2,22 @@ name: 韭研公社每日舆情汇总
 
 on:
   schedule:
-    - cron: '30 0 * * 1-5'
+    # 提前生成兜底报告，再在盘前刷新，避免依赖单次调度。
+    # GitHub 调度可能延迟；这些时间是触发目标，不是准点保证。
+    - cron: '17 1,2,7,8 * * 1-5'
+      timezone: Asia/Shanghai
+    - cron: '47 8 * * 1-5'
+      timezone: Asia/Shanghai
   workflow_dispatch:
+
+# 统一报告日期、文件名和日志的运行时区；此项不控制 cron 时区。
+env:
+  TZ: Asia/Shanghai
+
+# 避免多个补偿任务同时写入 gh-pages；不取消正在发布的任务。
+concurrency:
+  group: jiuyan-report-publish
+  cancel-in-progress: false
 
 jobs:
   crawl:
